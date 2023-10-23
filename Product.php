@@ -53,13 +53,5 @@ $products = $product->getAllProducts();
         echo "No products available.";
     }
     ?>
-
-    <h2>Insert New Product</h2>
-    <form method="post">
-        Product Name: <input type="text" name="product_name" required><br>
-        Price: <input type="number" name="price" required><br>
-        Stock Quantity: <input type="number" name="stock_quantity" required><br>
-        <input type="submit" value="Insert Product">
-    </form>
 </body>
 </html>
