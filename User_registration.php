@@ -7,14 +7,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $email = $_POST["email"];
 
+    // Initialize the DBConfig class to establish a database connection
+    $dbConfig = new DBConfig();
+    $connection = $dbConfig->getConnection();
+
     // Initialize the User class with the database connection
-    $user = new User($connection); // Assuming $db is your database connection
+    $user = new User($connection);
 
     // Call the registerUser method from the User class
     $registrationResult = $user->registerUser($username, $password, $email);
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h2>User Registration</h2>
-    <form method="post"> <!-- Removed the extra 'm' in the <form> tag and specified 'action' attribute -->
+    <form method="post" action="User_registration.php">
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>
         Email: <input type="text" name="email"><br>
