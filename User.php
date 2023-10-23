@@ -2,6 +2,7 @@
 <?php
 include 'DB_Config.php';
 class User {
+    //database connection 
     private $conn;
 
     public function __construct($connection) {
@@ -9,9 +10,7 @@ class User {
     }
 
     public function registerUser($username, $password, $email) {
-        // Hash the password before storing it in the database
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
+    
         // Insert user data into the Users table
         $insertQuery = "INSERT INTO users (Username, Password, Email) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($insertQuery);
@@ -21,7 +20,7 @@ class User {
         }
 
         // Bind parameters and execute the query
-        $stmt->bind_param("sss", $username, $hashedPassword, $email);
+        $stmt->bind_param("sss", $username, $password, $email);
 
         if ($stmt->execute()) {
             return true; // Registration successful
@@ -54,29 +53,16 @@ class Product {
             return array();
         }
     }
-
-    public function insertProduct($product_name, $price, $stock_quantity) {
-        $query = "INSERT INTO Products (Product_Name, Price, Stock_Quantity) VALUES (?, ?, ?)";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("sdi", $product_name, $price, $stock_quantity);
-
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-
-        $stmt->close();
-    }
 }
 ?>
+
 <?php
 class Cart {
+     //database connection 
     private $conn;
 
-    public function __construct($dbConnection) {
-        $this->conn = $dbConnection;
+    public function __construct($connection) {
+        $this->conn = $connection;
     }
 
     public function addItemToCart($user_id, $product_id, $quantity) {
@@ -128,6 +114,7 @@ class Cart {
     }
 
     public function clearCart($user_id) {
+        // delete the cart data
         $query = "DELETE FROM Carts WHERE User_ID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $user_id);
@@ -146,8 +133,8 @@ class Cart {
 class Order {
     private $conn;
 
-    public function __construct($dbConnection) {
-        $this->conn = $dbConnection;
+    public function __construct($connection) {
+        $this->conn = $connection;
     }
 
     // Create a new order record
