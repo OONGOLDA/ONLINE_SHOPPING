@@ -65,7 +65,6 @@ $cartItems = $cart->viewCart($user_id);
     <title>Checkout</title>
 </head>
 <body>
-    <h2>Checkout</h2>
     <?php
     if (count($cartItems) > 0) {
         $totalCost = 0; // Initialize totalCost
@@ -110,9 +109,10 @@ $cartItems = $cart->viewCart($user_id);
             echo "<input type='submit' name='checkout' value='Checkout'>";
         } else {
             echo "<p>$checkout_message</p>";
+            echo "<a href='add_cart.php'>Make another purchase</a>";
         }
     } else {
-        echo "Your cart is empty.";
+        echo "<br>";
         echo "<a href='add_cart.php'>Add items to the cart</a>";
     }
   
